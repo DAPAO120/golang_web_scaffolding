@@ -1,6 +1,7 @@
 package initialize
 
 import (
+	"Project001/global"
 	"Project001/internal/router"
 
 	"github.com/gin-gonic/gin"
@@ -11,12 +12,12 @@ func routerInit() *gin.Engine {
 	allRouter := router.AllRouter
 
 	// 链路追踪日志中间件
-	// r.Use(logger.GinMiddleware(global.Log, "takeout"))
+	r.Use(global.Log.LogrusGinMiddleware())
 
-	// admin
-	admin := r.Group("/admin")
+	// api
+	api := r.Group("/api")
 	{
-		allRouter.CommonRouter.InitApiRouter(admin)
+		allRouter.CommonRouter.InitApiRouter(api)
 	}
 	return r
 }

@@ -2,6 +2,7 @@ package initialize
 
 import (
 	"Project001/common/enum"
+	"Project001/global"
 	"errors"
 	"time"
 
@@ -76,7 +77,6 @@ func PostgreDatabase(dsn string) *gorm.DB {
 	db, err := gorm.Open(postgres.New(postgres.Config{
 		DSN:                  dsn,   // DSN data source name
 		PreferSimpleProtocol: false, // 禁用隐式预处理语句，如果设置为true，则不会使用PREPARE语句
-		WithoutReturning:     false, // 启用RETURNING语句，用于支持INSERT/UPDATE的返回ID等功能
 	}), &gorm.Config{
 		Logger: ormLogger,
 		NamingStrategy: schema.NamingStrategy{
@@ -125,7 +125,7 @@ func SlowQueryLog(db *gorm.DB) {
 			duration := now.Sub(start.(time.Time))
 			// 一般认为 200 Ms 为Sql慢查询
 			if duration > time.Millisecond*200 {
-				// global.Log.ErrContext(d.Statement.Context, "慢查询", "SQL:", d.Statement.SQL.String())
+				global.Log.Error(d.Statement.Context, "慢查询", "SQL:", d.Statement.SQL.String())
 			}
 		}
 	})

@@ -64,8 +64,15 @@ type DataSource struct {
 	Config   string
 }
 
-func (d *DataSource) Dsn() string {
-	return d.UserName + ":" + d.Password + "@tcp(" + d.Host + ":" + d.Port + ")/" + d.DBName + "?" + d.Config
+func (d *DataSource) Dsn(dbtype enum.Database) string {
+	var dsnStr string
+	if dbtype == enum.Mysql {
+		dsnStr = d.UserName + ":" + d.Password + "@tcp(" + d.Host + ":" + d.Port + ")/" + d.DBName + "?" + d.Config
+	}
+	if dbtype == enum.PostgreSql {
+		dsnStr = "postgres://" + d.UserName + ":" + d.Password + "@" + d.Host + ":" + d.Port + "/" + d.DBName + "?" + d.Config
+	}
+	return dsnStr
 }
 
 type Redis struct {
