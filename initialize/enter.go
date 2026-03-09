@@ -12,7 +12,7 @@ func GlobalInit() *gin.Engine {
 	// 配置文件初始化
 	global.Config = config.InitLoadConfig()
 	// Log初始化
-	global.Log = logger.NewLogger("info", config.InitLoadConfig().Log.FilePath)
+	global.Log = logger.NewLogger("debug", config.InitLoadConfig().Log.FilePath)
 
 	// Gorm初始化
 	global.DB = InitDatabase(global.Config.DataSource.Dsn(global.Config.DataSource.DBType), global.Config.DataSource.DBType)
